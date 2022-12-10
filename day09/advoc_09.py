@@ -8,22 +8,16 @@ def read_input() -> map:
 
 
 def follow(h_pos: list, t_pos: list, direction: str):
-    if direction == "U" and abs(t_pos[1] - h_pos[1]) > 1:
-        t_pos[1] += 1
-        if diff := h_pos[0] - t_pos[0]:
-            t_pos[0] += diff
-    elif direction == "D" and abs(t_pos[1] - h_pos[1]) > 1:
-        t_pos[1] -= 1
-        if diff := h_pos[0] - t_pos[0]:
-            t_pos[0] += diff
-    elif direction == "R" and abs(t_pos[0] - h_pos[0]) > 1:
-        t_pos[0] += 1
-        if diff := h_pos[1] - t_pos[1]:
-            t_pos[1] += diff
-    elif direction == "L" and abs(t_pos[0] - h_pos[0]) > 1:
-        t_pos[0] -= 1
-        if diff := h_pos[1] - t_pos[1]:
-            t_pos[1] += diff
+    move_x = h_pos[0] - t_pos[0]
+    move_y = h_pos[1] - t_pos[1]
+    if abs(move_x) > 1 or abs(move_y) > 1:
+        if move_x == 0:
+            t_pos[1] += move_y // 2
+        elif move_y == 0:
+            t_pos[0] += move_x // 2
+        else:
+            t_pos[0] += 1 if move_x > 0 else -1
+            t_pos[1] += 1 if move_y > 0 else -1
 
 
 def calc_t(direction: str, h_pos: list):
@@ -53,4 +47,5 @@ if __name__ == "__main__":
                 follow(rope[i], rope[i + 1], direction)
                 if i == rope_length - 2:
                     t_positions.add(tuple(rope[i + 1]))
+        print(rope)
     print(len(t_positions))
